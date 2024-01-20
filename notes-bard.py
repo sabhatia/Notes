@@ -2,7 +2,7 @@ import tkinter as tk
 
 def save_note():
     note = note_entry.get("1.0", tk.END)
-    with open("notes.txt", "a") as f:
+    with open("notes-bard.txt", "a") as f:
         f.write(note + "\n")
     note_entry.delete("1.0", tk.END)
 
