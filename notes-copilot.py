@@ -4,6 +4,17 @@ import json
 root = tk.Tk()
 notes = []
 
+def load_notes():
+    try:
+        with open('notes-copilot.json', 'r') as f:
+            global notes
+            notes = json.load(f)
+            notes_listbox.delete(0, tk.END)  # Clear existing notes
+            for note in notes:
+                notes_listbox.insert(tk.END, note)
+    except FileNotFoundError:
+        pass  # No file to load
+
 def save_notes():
     with open('notes-copilot.json', 'w') as f:
         json.dump(notes, f)
@@ -15,9 +26,11 @@ def add_note():
     save_notes()
 
 def edit_note():
-    selected_note = notes_listbox.curselection()[0]
-    note_entry.delete(0, tk.END)
-    note_entry.insert(0, notes[selected_note])
+    selected_note = notes_listbox.curselection()
+    if selected_note:  # Check if a note is selected
+        note = notes_listbox.get(selected_note)
+        note_entry.delete(0, tk.END)
+        note_entry.insert(0, note)
 
 def delete_note():
     selected_note = notes_listbox.curselection()[0]
